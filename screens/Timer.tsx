@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 
 const Timer: React.FC = () => {
   const [time, setTime] = React.useState<number>(0);
@@ -11,7 +11,9 @@ const Timer: React.FC = () => {
   };
 
   const onPressMinus = () => {
-    setTime((prev) => prev - 10);
+    if (time > 0) {
+      setTime((prev) => prev - 10);
+    }
   };
 
   const onPressStart = () => {
@@ -48,24 +50,44 @@ const Timer: React.FC = () => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View>
-        <Text>{formatTime(time)}</Text>
+      <View style={styles.timeBox}>
+        <Text style={styles.timeCurrnet}>{formatTime(time)}</Text>
       </View>
-      <View>
+      <View style={styles.buttonsContainer}>
         <Pressable onPress={onPressPlus}>
-          <Text>+10</Text>
+          <Text style={styles.buttonsText}>+10</Text>
         </Pressable>
         <Pressable onPress={onPressMinus}>
-          <Text>-10</Text>
+          <Text style={styles.buttonsText}>-10</Text>
         </Pressable>
       </View>
       <View>
         <Pressable onPress={onPressStart}>
-          <Text>{isStarted ? 'Stop' : 'Start'}</Text>
+          <Text style={styles.startText}>{isStarted ? 'Stop' : 'Start'}</Text>
         </Pressable>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  timeBox: {
+    marginBottom: 25,
+  },
+  timeCurrnet: {
+    fontSize: 40,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    columnGap: 40,
+    marginBottom: 25,
+  },
+  buttonsText: {
+    fontSize: 30,
+  },
+  startText: {
+    fontSize: 20,
+  },
+});
 
 export default Timer;
